@@ -1,11 +1,12 @@
 import React from 'react';
+import PureComponent from 'react-pure-render/component';
 import Firebase from 'firebase';
 import { setUser } from '../ducks/user';
 import store from '../store';
 
 const firebaseRef = new Firebase(`https://devmtn-bulletin.firebaseio.com/`);
 
-export default class Unauthed extends React.Component {
+export default class Unauthed extends PureComponent {
 	constructor( props ) {
 		super( props );
 
@@ -47,8 +48,7 @@ export default class Unauthed extends React.Component {
 				return console.error(`Error logging in. ${ err }`)
 			}
 			this.setState({
-				  user: authData
-				, email: ``
+				  email: ``
 				, password: ``
 			});
 			store.dispatch(setUser({
@@ -64,8 +64,11 @@ export default class Unauthed extends React.Component {
 			if ( err ) {
 				return console.error(`Error logging in. ${ err }`);
 			}
-			console.log(authData);
-			this.setState({ user: authData });
+			store.dispatch(setUser({
+				loggedIn: true
+				, id: authData.uid
+				, cohortId: 46
+			}));
 		});
 	}
 

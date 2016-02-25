@@ -1,6 +1,7 @@
 import React from 'react';
+import PureComponent from 'react-pure-render/component';
 
-export default class Post extends React.Component {
+export default class Post extends PureComponent {
 	render() {
 		return (
 			<div>

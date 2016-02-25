@@ -1,15 +1,14 @@
 import React from 'react';
+import PureComponent from 'react-pure-render/component';
 import { connect } from 'react-redux';
 import store from '../store';
 import Navbar from './navbar';
 import Post from './post';
 import Unauthed from './unauthed'
 
-export class Home extends React.Component {
+export class Home extends PureComponent {
 	constructor( props ) {
 		super( props );
-
-		this.state = store.getState();
 	}
 
 	getPosts() {
@@ -38,7 +37,7 @@ export class Home extends React.Component {
 		return (
 			<div>
 				<Navbar user={ this.props.user } />
-				{ this.props.user ?
+				{ this.props.user.get(`loggedIn`) ?
 					posts :
 					<Unauthed /> }
 			</div>
