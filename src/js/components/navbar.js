@@ -15,7 +15,7 @@ export default class Navbar extends React.Component {
 
 					<ul className="nav-list">
 						<li className="nav-item"><a href="/#/campus">Campus</a></li>
-						{ this.state.user ?
+						{ this.props.user ?
 							<li className="nav-item"><a href="/#/cohort">Cohort</a></li> :
 							null }
 						<li className="nav-item"><a href="/#/">Home</a></li>

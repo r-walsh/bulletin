@@ -1,5 +1,5 @@
 import { createStore } from 'redux';
-import user from './ducks/user';
+import reducer from './reducer';
 
-const store = createStore( user );
+const store = createStore( reducer );
 export default store;

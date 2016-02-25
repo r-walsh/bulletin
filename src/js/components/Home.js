@@ -37,7 +37,7 @@ export class Home extends React.Component {
 		let posts = this.getPosts().map( post => <Post key={ post.id } { ...post } />);
 		return (
 			<div>
-				<Navbar />
+				<Navbar user={ this.props.user } />
 				{ this.props.user ?
 					posts :
 					<Unauthed /> }
