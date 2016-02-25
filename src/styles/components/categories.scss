@@ -1,9 +1,21 @@
+.category-wrapper {
+  width: 60%;
+  margin: 0 auto;
+}
+
 .category {
-  width: 100px;
-  height: 80px;
+  width: 140px;
+  height: 60px;
   display: inline-block;
+  margin: 25px 40px;
+  border-radius: 4px;
+  background-color: #9fdeff;
+
+  &:focus {
+    outline: none;
+  }
 }
 
 .selected {
-  background-color: pink;
+  background-color: #57ff98;
 }

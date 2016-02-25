@@ -36,7 +36,6 @@ export class Home extends PureComponent {
 	}
 
 	render() {
-		//let posts = this.getPosts().map( post => <Post key={ post.id } { ...post } />);
 		let posts = this.getPosts().filter( post => this.props.category.get(post.category))
 									.map( post => <Post key={ post.id } { ...post } />);
 		return (

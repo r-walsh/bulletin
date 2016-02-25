@@ -12,7 +12,7 @@ export default class Categories extends PureComponent {
 
 	render() {
 		return (
-			<div>
+			<div className="category-wrapper">
 				<button className={ classNames('category', { selected: this.props.category.get('general') }) }
 						onClick={ this.categorySelect.bind(this, `general`)}>
 					General
