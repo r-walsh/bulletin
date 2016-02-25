@@ -3,12 +3,12 @@ const SET_USER = `/user/SET_USER`;
 
 const initialState = Map({
 	  loggedIn: false
-	, id: ''
-	, cohortId: ''
+	, id: null
+	, cohortId: null
 });
 
 export default function reducer( state = initialState, action ) {
-	switch ( action.actionType ) {
+	switch ( action.type ) {
 		case SET_USER:
 			return state.merge( action.user );
 	}

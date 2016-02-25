@@ -10,7 +10,6 @@ export class Home extends React.Component {
 		super( props );
 
 		this.state = store.getState();
-		console.log(this.state);
 	}
 
 	getPosts() {

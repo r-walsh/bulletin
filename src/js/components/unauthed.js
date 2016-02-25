@@ -1,6 +1,7 @@
 import React from 'react';
 import Firebase from 'firebase';
 import { setUser } from '../ducks/user';
+import store from '../store';
 
 const firebaseRef = new Firebase(`https://devmtn-bulletin.firebaseio.com/`);
 
@@ -50,6 +51,11 @@ export default class Unauthed extends React.Component {
 				, email: ``
 				, password: ``
 			});
+			store.dispatch(setUser({
+				  loggedIn: true
+				, id: authData.uid
+				, cohortId: 46
+			}));
 		});
 	}
 
