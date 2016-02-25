@@ -1,28 +1,22 @@
 import { Map } from 'immutable';
 
-const ADD_CATEGORY = `category/ADD_CATEGORY`;
+const CATEGORY_SELECT = `category/CATEGORY_SELECT`;
 const REMOVE_CATEGORY = `category/REMOVE_CATEGORY`;
 
 const initialState = Map({
-	  home: true
+	  general: true
 	, cohort: false
 	, campus: false
 });
 
 export default function reducer( state = initialState, action ) {
 	switch ( action.type ) {
-		case ADD_CATEGORY:
-			return state.set(action.newCategory, true);
-		case REMOVE_CATEGORY:
-			return state.set(action.removeCategory, false);
+		case CATEGORY_SELECT:
+			return state.set(action.category, !state.get(action.category));
 	}
 	return state;
 }
 
-export function addCategory( newCategory ) {
-	return { type: ADD_CATEGORY, newCategory };
-}
-
-export function removeCategory( removeCategory ) {
-	return { type: REMOVE_CATEGORY, removeCategory };
+export function categorySelect( category ) {
+	return { type: CATEGORY_SELECT, category };
 }

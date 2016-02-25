@@ -21,6 +21,7 @@ export class Home extends PureComponent {
 				, author: `Ryan`
 				, date: new Date(`January 1 2016`)
 				, content: `This is the first note, isn't that neat?`
+				, category: `general`
 			  }
 			, {
 				  title: `Second Post...`
@@ -29,15 +30,19 @@ export class Home extends PureComponent {
 				, author: `Ryan`
 				, date: new Date(`January 2 2016`)
 				, content: `This note isn't as exciting...`
+				, category: `campus`
 			  }
 		];
 	}
 
 	render() {
-		let posts = this.getPosts().map( post => <Post key={ post.id } { ...post } />);
+		//let posts = this.getPosts().map( post => <Post key={ post.id } { ...post } />);
+		let posts = this.getPosts().filter( post => this.props.category.get(post.category))
+									.map( post => <Post key={ post.id } { ...post } />);
 		return (
 			<div>
 				<Navbar user={ this.props.user } />
+				{ this.props.user.get(`loggedIn`) ? <Categories category={ this.props.category } /> : null }
 				{ this.props.user.get(`loggedIn`)
 					?
 						posts
@@ -49,5 +54,5 @@ export class Home extends PureComponent {
 
 export default connect( state => ({
 	  user: state.user
-	, post: state.post
+	, category: state.category
 }))( Home );
