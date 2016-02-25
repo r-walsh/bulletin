@@ -1,6 +1,7 @@
 .category-wrapper {
   width: 60%;
   margin: 0 auto;
+  box-sizing: border-box;
 }
 
 .category {
@@ -10,6 +11,7 @@
   margin: 25px 40px;
   border-radius: 4px;
   background-color: #9fdeff;
+  box-sizing: border-box;
 
   &:focus {
     outline: none;
@@ -18,4 +20,10 @@
 
 .selected {
   background-color: #57ff98;
+}
+
+.check {
+  font-size: 1.1em;
+  color: #343d46;
+  margin-left: 5px;
 }
