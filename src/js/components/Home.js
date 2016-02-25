@@ -4,7 +4,8 @@ import { connect } from 'react-redux';
 import store from '../store';
 import Navbar from './navbar';
 import Post from './post';
-import Unauthed from './unauthed'
+import Unauthed from './unauthed';
+import Categories from './categories';
 
 export class Home extends PureComponent {
 	constructor( props ) {
@@ -37,14 +38,16 @@ export class Home extends PureComponent {
 		return (
 			<div>
 				<Navbar user={ this.props.user } />
-				{ this.props.user.get(`loggedIn`) ?
-					posts :
-					<Unauthed /> }
+				{ this.props.user.get(`loggedIn`)
+					?
+						posts
+					:	<Unauthed /> }
 			</div>
 		);
 	}
 }
 
 export default connect( state => ({
-	user: state.user
+	  user: state.user
+	, post: state.post
 }))( Home );

@@ -13,6 +13,7 @@ export default class Unauthed extends PureComponent {
 		this.state = {
 			  newUser: false
 			, errors: false
+			, loading: false
 		};
 
 	}
@@ -25,7 +26,7 @@ export default class Unauthed extends PureComponent {
 		firebaseRef.createUser({
 			  email: this.state.email
 			, password: this.state.password
-		}, ( err, authData ) => {
+		}, ( err ) => {
 			if ( err ) {
 				return console.error(`Error logging in. ${ err }`);
 			}
@@ -40,10 +41,14 @@ export default class Unauthed extends PureComponent {
 	}
 
 	login() {
+		this.setLoading();
+
 		firebaseRef.authWithPassword({
 			  email: this.state.email
 			, password: this.state.password
 		}, ( err, authData ) => {
+			this.setLoading();
+
 			if ( err ) {
 				return console.error(`Error logging in. ${ err }`)
 			}
@@ -60,7 +65,10 @@ export default class Unauthed extends PureComponent {
 	}
 
 	loginWithGithub() {
+		this.setLoading();
+
 		firebaseRef.authWithOAuthPopup(`github`, ( err, authData ) => {
+			this.setLoading();
 			if ( err ) {
 				return console.error(`Error logging in. ${ err }`);
 			}
@@ -86,51 +94,59 @@ export default class Unauthed extends PureComponent {
 		this[submitType]();
 	}
 
+	setLoading() {
+		this.setState({ loading: !this.state.loading });
+	}
+
 	render() {
 		return (
 			<div className="unauthed-wrapper">
 				<h3>Login to view information specific to your cohort!</h3>
 
 				{ this.state.errors ? <p className="errors">{ this.state.errors }</p> : null }
+				{ this.state.loading
+					?
+						<img src="./assets/squares.svg" alt="loading..."/>
+					:
+						<form className="auth-form">
 
-				<form className="auth-form">
+							<input type="email"
+								   required
+								   placeholder="user@example.net"
+								   className="auth-input"
+								   value={ this.state.email }
+								   onChange={ this.handleChange.bind( this, `email` ) }/>
 
-					<input type="email"
-						   required
-						   placeholder="user@example.net"
-						   className="auth-input"
-						   value={ this.state.email }
-						   onChange={ this.handleChange.bind( this, `email` ) } />
+							<input type="password"
+								   required
+								   placeholder="Password"
+								   className="auth-input"
+								   value={ this.state.password }
+								   onChange={ this.handleChange.bind( this, `password`)}/>
 
-					<input type="password"
-						   required
-						   placeholder="Password"
-						   className="auth-input"
-						   value={ this.state.password }
-						   onChange={ this.handleChange.bind( this, `password`)} />
+							{ this.state.newUser ?
+								<button type="submit"
+										className="auth-submit"
+										onClick={ this.validateForm.bind( this, `login` ) }>
+									Login
+								</button> :
+								<button type="submit"
+										className="auth-submit"
+										onClick={ this.validateForm.bind( this, `register` ) }>
+									Register
+								</button>
+							}
+							<button onClick={ this.loginWithGithub.bind( this ) }
+									className="auth-submit">
+								Login with GitHub
+							</button>
 
-					{ this.state.newUser ?
-						<button type="submit"
-								className="auth-submit"
-								onClick={ this.validateForm.bind( this, `login` ) }>
-							Login
-						</button> :
-						<button type="submit"
-								className="auth-submit"
-								onClick={ this.validateForm.bind( this, `register` ) }>
-							Register
-						</button>
-					}
-					<button onClick={ this.loginWithGithub.bind( this ) }
-							className="auth-submit">
-						Login with GitHub
-					</button>
-
-					<p  className="login-register"
-						onClick={ this.loginRegisterToggle.bind( this ) }>
-						{ this.state.newUser ? `Need an account?` : `Have an account?` }
-					</p>
-				</form>
+							<p className="login-register"
+							   onClick={ this.loginRegisterToggle.bind( this ) }>
+								{ this.state.newUser ? `Need an account?` : `Have an account?` }
+							</p>
+						</form>
+				}
 			</div>
 		);
 	}
