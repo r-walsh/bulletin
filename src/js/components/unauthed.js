@@ -1,5 +1,6 @@
 import React from 'react';
 import Firebase from 'firebase';
+import { setUser } from '../ducks/user';
 
 const firebaseRef = new Firebase(`https://devmtn-bulletin.firebaseio.com/`);
 
@@ -15,10 +16,7 @@ export default class Unauthed extends React.Component {
 	}
 
 	handleChange( field, event ) {
-		var nextState = {};
-		nextState[field] = event.target.value;
-
-		this.setState(nextState);
+		this.setState({ [field]: event.target.value });
 	}
 
 	register() {
@@ -60,33 +58,21 @@ export default class Unauthed extends React.Component {
 			if ( err ) {
 				return console.error(`Error logging in. ${ err }`);
 			}
-			this.setState({
-				user: authData
-			});
+			console.log(authData);
+			this.setState({ user: authData });
 		});
 	}
 
 
 	loginRegisterToggle() {
-		this.state.newUser = !this.state.newUser;
-
-		this.setState({
-			newUser: this.state.newUser
-		});
+		this.setState({ newUser: !this.state.newUser });
 	}
 
 	validateForm( submitType ) {
 		if ( !this.state.email || !this.state.password ) {
-			this.state.errors = `All fields required!`;
-			return this.setState({
-				errors: this.state.errors
-			});
+			return this.setState({ errors: `All fields required!` });
 		} else {
-			this.state.errors = '';
-
-			this.setState({
-				errors: this.state.errors
-			});
+			this.setState({ errors: `` });
 		}
 		this[submitType]();
 	}

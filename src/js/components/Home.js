@@ -1,13 +1,16 @@
 import React from 'react';
+import { connect } from 'react-redux';
+import store from '../store';
 import Navbar from './navbar';
 import Post from './post';
 import Unauthed from './unauthed'
 
-export default class Home extends React.Component {
+export class Home extends React.Component {
 	constructor( props ) {
 		super( props );
 
-		this.state = {};
+		this.state = store.getState();
+		console.log(this.state);
 	}
 
 	getPosts() {
@@ -36,10 +39,14 @@ export default class Home extends React.Component {
 		return (
 			<div>
 				<Navbar />
-				{ this.state.user ?
+				{ this.props.user ?
 					posts :
 					<Unauthed /> }
 			</div>
 		);
 	}
-};
+}
+
+export default connect( state => ({
+	user: state.user
+}))( Home );

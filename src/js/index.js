@@ -1,23 +1,21 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import Router, { Route } from 'react-router';
+import { Provider } from 'react-redux';
+import store from './store';
 
 import '../styles/index.scss';
 
 import Home from './components/Home';
-
-const routes = (
-	<Router>
-		<Route path="/" component={ Home } />
-	</Router>
-);
 
 document.addEventListener(`DOMContentLoaded`, () => {
 	let reactNode = document.getElementById(`app`);
 
 	if ( reactNode ) {
 		ReactDOM.render(
-			routes,
+			<Provider store={ store }>
+				<Home />
+			</Provider>,
 			reactNode
 		);
 	}
