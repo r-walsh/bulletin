@@ -4,7 +4,7 @@ import PureComponent from 'react-pure-render/component';
 export default class Post extends PureComponent {
 	render() {
 		return (
-			<div>
+			<div className="post">
 				<h2>{ this.props.title }</h2>
 				<h4>{ this.props.author }</h4>
 				<p>{ this.props.content }</p>

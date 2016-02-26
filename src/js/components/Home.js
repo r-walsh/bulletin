@@ -1,16 +1,28 @@
 import React from 'react';
 import PureComponent from 'react-pure-render/component';
 import { connect } from 'react-redux';
+import Firebase from 'firebase';
 import store from '../store';
 import Navbar from './navbar';
 import Post from './post';
 import Unauthed from './unauthed';
 import Categories from './categories';
+import NewPost from './newPost';
 
 export class Home extends PureComponent {
 	constructor( props ) {
 		super( props );
 	}
+
+	//componentWillMount() {
+	//	const firebaseRef = new Firebase(`https://devmtn-bulletin.firebaseio.com/`);
+	//	firebaseRef.child(`post/general`).on(`value`, ( generalPost ) => {
+	//
+	//	});
+	//	if ( this.props.user.get(`loggedIn`) ) {
+	//
+	//	}
+	//}
 
 	getPosts() {
 		return [
@@ -41,6 +53,7 @@ export class Home extends PureComponent {
 		return (
 			<div>
 				<Navbar user={ this.props.user } />
+				<NewPost />
 				{ this.props.user.get(`loggedIn`) ? <Categories category={ this.props.category } /> : null }
 				{ this.props.user.get(`loggedIn`)
 					?
