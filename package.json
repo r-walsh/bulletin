@@ -20,7 +20,6 @@
     "chai": "^3.5.0",
     "chai-immutable": "^1.5.3",
     "css-loader": "^0.23.1",
-    "jsdom": "^8.0.2",
     "mocha": "^2.4.5",
     "node-sass": "^3.4.2",
     "react-addons-test-utils": "^0.14.7",
@@ -33,15 +32,12 @@
   "dependencies": {
     "classnames": "^2.2.3",
     "firebase": "^2.4.1",
-    "history": "^2.0.0",
     "immutable": "^3.7.6",
     "react": "^0.14.7",
-    "react-addons-pure-render-mixin": "^0.14.7",
     "react-dom": "^0.14.7",
     "react-modal": "^0.6.1",
     "react-pure-render": "^1.0.2",
     "react-redux": "^4.4.0",
-    "react-router": "^1.0.0-rc3",
     "redux": "^3.3.1"
   }
 }
