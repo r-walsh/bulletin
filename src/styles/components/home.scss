@@ -1,0 +1,14 @@
+.wrapper-main {
+  position: relative;
+  min-height: 500px;
+  width: 100%;
+}
+
+.post-wrapper {
+  width: 80%;
+  margin: 15px auto;
+
+  &:first-child {
+    margin-top: 30px;
+  }
+}

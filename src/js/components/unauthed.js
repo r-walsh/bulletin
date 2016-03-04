@@ -1,6 +1,7 @@
 import React from 'react';
 import PureComponent from 'react-pure-render/component';
 import Firebase from 'firebase';
+import { CircularProgress, RaisedButton } from 'material-ui';
 import { setUser } from '../ducks/user';
 import store from '../store';
 
@@ -101,12 +102,12 @@ export default class Unauthed extends PureComponent {
 	render() {
 		return (
 			<div className="unauthed-wrapper">
-				<h3>Login to view information specific to your cohort!</h3>
+				<h3>Login or register to view information specific to your cohort!</h3>
 
 				{ this.state.errors ? <p className="errors">{ this.state.errors }</p> : null }
 				{ this.state.loading
 					?
-						<img src="./assets/squares.svg" alt="loading..."/>
+						<CircularProgress />
 					:
 						<form className="auth-form">
 
@@ -125,21 +126,24 @@ export default class Unauthed extends PureComponent {
 								   onChange={ this.handleChange.bind( this, `password`)}/>
 
 							{ this.state.newUser ?
-								<button type="submit"
-										className="auth-submit"
-										onClick={ this.validateForm.bind( this, `login` ) }>
-									Login
-								</button> :
-								<button type="submit"
-										className="auth-submit"
-										onClick={ this.validateForm.bind( this, `register` ) }>
-									Register
-								</button>
+								<RaisedButton label="Login"
+											  secondary={ true }
+											  onClick={ this.validateForm.bind( this, 'login' ) }
+											  className="auth-submit"
+											  />
+								 :
+								<RaisedButton label="Register"
+											  secondary={ true }
+											  onClick={ this.validateForm.bind( this, 'register' ) }
+											  className="auth-submit"
+											  />
 							}
-							<button onClick={ this.loginWithGithub.bind( this ) }
-									className="auth-submit">
-								Login with GitHub
-							</button>
+
+							<RaisedButton label="Login with GitHub"
+										  secondary={ true }
+										  onClick={ this.loginWithGithub.bind( this ) }
+										  className="auth-submit"
+										  />
 
 							<p className="login-register"
 							   onClick={ this.loginRegisterToggle.bind( this ) }>

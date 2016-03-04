@@ -37,15 +37,9 @@ button, input, label {
 }
 
 .auth-submit {
-  padding: 9px 25px;
+  display: block !important;
   margin: 0 0 10px 0;
-  background-color: #6cebff;
+  //background-color: #6cebff;
   border: 1px solid #aaaaaa;
   border-radius: 2px;
-  font-size: .9em;
-  opacity: .85;
-
-  &:hover {
-    opacity: 1;
-  }
 }
