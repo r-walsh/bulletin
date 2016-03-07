@@ -1,3 +1,7 @@
+html, body {
+  font-family: 'Lato', sans-serif;
+}
+
 .wrapper-main {
   position: relative;
   min-height: 500px;
@@ -11,4 +15,8 @@
   &:first-child {
     margin-top: 30px;
   }
+}
+
+.new-post-wrapper {
+  margin: 0 0 20px 15px;
 }

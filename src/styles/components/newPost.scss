@@ -1,0 +1,21 @@
+.close-modal {
+  float: right;
+  margin: 0;
+}
+
+.new-post-wrapper {
+  width: 100%;
+  //margin: 60px auto 0 auto;
+}
+
+.bug-fix-wrapper {
+  width: 400px;
+  border: 1px solid #C2C5BE;
+  border-radius: 4px;
+  margin: 50px auto 0 auto;
+  padding: 20px
+}
+
+.new-post-wrapper * {
+  margin-bottom: 3px;
+}

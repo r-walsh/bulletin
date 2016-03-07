@@ -20,6 +20,8 @@ export default class NewPost extends PureComponent {
 		super( props );
 
 		this.state = initialState;
+
+		this.firebaseRef = new Firebase(this.props.firebaseUrl);
 	}
 
 	newPost() {
@@ -54,14 +56,16 @@ export default class NewPost extends PureComponent {
 			return this.setState({ errors: 'Title, content, and category are required.' });
 		}
 
-		this.props.firebaseRef
-			.child('posts')
+		this.firebaseRef
+			.child(`posts`)
 			.push({
 				  category: this.state.category
 				, title: this.state.title
 				, content: this.state.content
 				, dateTime
 			});
+
+		this.setState(initialState);
 	}
 
 	render() {
@@ -77,9 +81,10 @@ export default class NewPost extends PureComponent {
 			<div>
 				{ this.state.writePost
 					?
-						<Modal isOpen={ this.state.writePost }>
+						<Modal isOpen={ this.state.writePost } >
 							<RaisedButton onClick={ () => this.setState({ confirmClose: true }) }
 										  label="X"
+										  className="close-modal"
 										  primary={ true } />
 
 							<Dialog title="Confirm"
@@ -95,34 +100,41 @@ export default class NewPost extends PureComponent {
 								:
 									null
 							}
+							<div className="new-post-wrapper">
+								<div className="bug-fix-wrapper">
+									<RadioButtonGroup name="category"
+													  className="category-select-wrapper"
+													  onChange={ ( event, category ) => this.setState({ category  }) } >
+										<RadioButton value="general"
+													 label="General" />
+										<RadioButton value="campus"
+													 label="Campus" />
+										<RadioButton value="cohort"
+													 label="Cohort" />
+									</RadioButtonGroup>
 
-							<RadioButtonGroup name="category"
-											  onChange={ ( event, category ) => this.setState({ category  }) } >
-								<RadioButton value="general"
-											 label="General" />
-								<RadioButton value="campus"
-											 label="Campus" />
-								<RadioButton value="cohort"
-											 label="Cohort" />
-							</RadioButtonGroup>
-
-							<TextField hintText="Title"
-									   onChange={ this.handleChange.bind( this, 'title' ) } />
-							<div className="clear"></div>
-							<TextField multiLine={ true }
-									   onChange={ this.handleChange.bind( this, 'content' ) }
-									   rows={ 5 }
-									   rowsMax={ 15 } />
-							<DatePicker mode="landscape"
-										onChange={ ( event, date ) =>  this.setState({ date } ) }
-										hintText="Choose a date?" />
-							<TimePicker hintText="Choose a time?"
-										pedantic={ true }
-										value={ this.state.time }
-										onChange={ ( event, time ) => this.setState({ time }) } />
-							<RaisedButton onClick={ this.submit.bind( this ) }
-										  label="Submit"
-										  secondary={ true } />
+									<TextField hintText="Title"
+											   style={{ width: `100%` }}
+											   onChange={ this.handleChange.bind( this, 'title' ) } />
+									<div className="clear"></div>
+									<TextField multiLine={ true }
+											   floatingLabelText="Add your post here!"
+											   onChange={ this.handleChange.bind( this, 'content' ) }
+											   style={{ width: `100%` }}
+											   rows={ 5 }
+											   rowsMax={ 15 } />
+									<DatePicker mode="landscape"
+												onChange={ ( event, date ) =>  this.setState({ date } ) }
+												hintText="Choose a date?" />
+									<TimePicker hintText="Choose a time?"
+												pedantic={ true }
+												value={ this.state.time }
+												onChange={ ( event, time ) => this.setState({ time }) } />
+									<RaisedButton onClick={ this.submit.bind( this ) }
+												  label="Submit"
+												  secondary={ true } />
+								</div>
+							</div>
 						</Modal>
 					:
 						<RaisedButton onClick={ this.newPost.bind(this) }
