@@ -40,6 +40,8 @@
     "react-pure-render": "^1.0.2",
     "react-redux": "^4.4.0",
     "react-tap-event-plugin": "^0.2.2",
-    "redux": "^3.3.1"
+    "reactfire": "^0.6.0",
+    "redux": "^3.3.1",
+    "underscore": "^1.8.3"
   }
 }

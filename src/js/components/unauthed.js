@@ -5,7 +5,6 @@ import { CircularProgress, RaisedButton } from 'material-ui';
 import { setUser } from '../ducks/user';
 import store from '../store';
 
-const firebaseRef = new Firebase(`https://devmtn-bulletin.firebaseio.com/`);
 
 export default class Unauthed extends PureComponent {
 	constructor( props ) {
@@ -17,6 +16,8 @@ export default class Unauthed extends PureComponent {
 			, loading: false
 		};
 
+		this.firebaseRef = new Firebase( this.props.firebaseUrl );
+
 	}
 
 	handleChange( field, event ) {
@@ -24,7 +25,7 @@ export default class Unauthed extends PureComponent {
 	}
 
 	register() {
-		firebaseRef.createUser({
+		this.firebaseRef.createUser({
 			  email: this.state.email
 			, password: this.state.password
 		}, ( err ) => {
@@ -44,7 +45,7 @@ export default class Unauthed extends PureComponent {
 	login() {
 		this.setLoading();
 
-		firebaseRef.authWithPassword({
+		this.firebaseRef.authWithPassword({
 			  email: this.state.email
 			, password: this.state.password
 		}, ( err, authData ) => {
@@ -68,7 +69,7 @@ export default class Unauthed extends PureComponent {
 	loginWithGithub() {
 		this.setLoading();
 
-		firebaseRef.authWithOAuthPopup(`github`, ( err, authData ) => {
+		this.firebaseRef.authWithOAuthPopup(`github`, ( err, authData ) => {
 			this.setLoading();
 			if ( err ) {
 				return console.error(`Error logging in. ${ err }`);

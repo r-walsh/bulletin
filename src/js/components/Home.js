@@ -2,6 +2,8 @@ import React from 'react';
 import PureComponent from 'react-pure-render/component';
 import { connect } from 'react-redux';
 import Firebase from 'firebase';
+import ReactFireMixin from 'reactfire';
+import _ from 'underscore';
 import store from '../store';
 import Navbar from './navbar';
 import Post from './post';
@@ -9,56 +11,44 @@ import Unauthed from './unauthed';
 import Categories from './categories';
 import NewPost from './newPost';
 
+const firebaseUrl = `https://devmtn-bulletin.firebaseio.com/`;
+
 export class Home extends PureComponent {
 	constructor( props ) {
 		super( props );
-	}
 
-	//componentWillMount() {
-	//	const firebaseRef = new Firebase(`https://devmtn-bulletin.firebaseio.com/`);
-	//	firebaseRef.child(`post/general`).on(`value`, ( generalPost ) => {
-	//
-	//	});
-	//	if ( this.props.user.get(`loggedIn`) ) {
-	//
-	//	}
-	//}
+		this.postsRef = new Firebase(firebaseUrl + `posts`);
 
-	getPosts() {
-		return [
-			  {
-				  title: `First Post!`
-				, id: 1
-				, sticky: true
-				, author: `Ryan`
-				, date: new Date(`January 1 2016`)
-				, content: `This is the first note, isn't that neat?`
-				, category: `general`
-			  }
-			, {
-				  title: `Second Post...`
-				, id: 2
-				, sticky: false
-				, author: `Ryan`
-				, date: new Date(`January 2 2016`)
-				, content: `This note isn't as exciting...`
-				, category: `campus`
-			  }
-		];
+		this.state = { posts: {} };
+
+		this.postsRef.on(`child_added`, post => {
+			if ( this.state.posts[post.key()]) {
+				return;
+			}
+
+			let postVal = post.val();
+			postVal.key = post.key();
+			this.setState(_.extend( this.state.posts, { [postVal.key]: postVal } ));
+
+		});
+
 	}
 
 	render() {
-		let posts = this.getPosts().filter( post => this.props.category.get(post.category))
-									.map( post => <div key={ post.id } className="post-wrapper"><Post key={ post.id } { ...post } /></div>);
+		let posts = _.values( this.state.posts )
+						.filter( post => this.props.category.get( post.category ) )
+						.map( post => <div key={ post.key } className="post-wrapper"><Post key={ post.key } { ...post } /></div> );
+
 		return (
 			<div>
 				<Navbar user={ this.props.user } />
+				<NewPost firebaseUrl={ firebaseUrl } />
 				{ this.props.user.get(`loggedIn`) ? <Categories category={ this.props.category } /> : null }
 				<div className="wrapper-main">
 					{ this.props.user.get(`loggedIn`)
 						?
 							posts
-						:	<Unauthed /> }
+						:	<Unauthed firebaseUrl={ firebaseUrl } /> }
 				</div>
 			</div>
 		);
