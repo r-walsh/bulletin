@@ -42,12 +42,14 @@ export class Home extends PureComponent {
 		return (
 			<div>
 				<Navbar user={ this.props.user } />
-				<NewPost firebaseUrl={ firebaseUrl } />
 				{ this.props.user.get(`loggedIn`) ? <Categories category={ this.props.category } /> : null }
 				<div className="wrapper-main">
 					{ this.props.user.get(`loggedIn`)
 						?
-							posts
+							<div>
+								<NewPost firebaseUrl={ firebaseUrl } />
+								{ posts }
+							</div>
 						:	<Unauthed firebaseUrl={ firebaseUrl } /> }
 				</div>
 			</div>
