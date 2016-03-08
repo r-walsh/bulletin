@@ -45,9 +45,9 @@ export default class NewPost extends PureComponent {
 				, this.state.date.getDate()
 				, this.state.time.getHours()
 				, this.state.time.getMinutes()
-			);
+			).getTime();
 		} else if ( this.state.date ) {
-			dateTime = this.state.date;
+			dateTime = this.state.date.getTime();
 		} else if ( this.state.time ) {
 			return this.setState({ errors: 'Must set a date to set a time'});
 		}
@@ -56,6 +56,7 @@ export default class NewPost extends PureComponent {
 			return this.setState({ errors: 'Title, content, and category are required.' });
 		}
 
+		console.log(dateTime);
 		this.firebaseRef
 			.child(`posts`)
 			.push({
@@ -63,6 +64,7 @@ export default class NewPost extends PureComponent {
 				, title: this.state.title
 				, content: this.state.content
 				, dateTime
+				, author: this.props.user.get(`id`)
 			});
 
 		this.setState(initialState);

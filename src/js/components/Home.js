@@ -37,7 +37,7 @@ export class Home extends PureComponent {
 	render() {
 		let posts = _.values( this.state.posts )
 						.filter( post => this.props.category.get( post.category ) )
-						.map( post => <div key={ post.key } className="post-wrapper"><Post key={ post.key } { ...post } /></div> );
+						.map( post => <div key={ post.key } className="post-wrapper"><Post key={ post.key } { ...post } user={ this.props.user } /></div> );
 
 		return (
 			<div>
@@ -48,7 +48,7 @@ export class Home extends PureComponent {
 							<div>
 								<Categories category={ this.props.category } />
 								<div className="new-post-wrapper">
-									<NewPost firebaseUrl={ firebaseUrl } />
+									<NewPost firebaseUrl={ firebaseUrl } user={ this.props.user } />
 								</div>
 								{ posts }
 							</div>

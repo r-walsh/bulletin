@@ -28,7 +28,7 @@ export default class Unauthed extends PureComponent {
 		this.firebaseRef.createUser({
 			  email: this.state.email
 			, password: this.state.password
-		}, ( err ) => {
+		}, ( err, authdata ) => {
 			if ( err ) {
 				return console.error(`Error logging in. ${ err }`);
 			}
@@ -75,7 +75,7 @@ export default class Unauthed extends PureComponent {
 				return console.error(`Error logging in. ${ err }`);
 			}
 			store.dispatch(setUser({
-				loggedIn: true
+				  loggedIn: true
 				, id: authData.uid
 				, cohortId: 46
 			}));
