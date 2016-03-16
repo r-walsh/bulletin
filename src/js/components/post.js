@@ -8,20 +8,19 @@ export default class Post extends PureComponent {
 
 	deletePost() {
 		//dispatch a deletepost action, handle delete post in a higher component
-		if ( this.props.user.get(`id`) === this.props.user ) {
-			new Firebase(this.props.firebaseUrl + `/posts/${ this.props.key }`)
+		if ( this.props.user.get(`id`) === this.props.author ) {
+			new Firebase(`${ this.props.firebaseUrl }posts/${ this.props.id }`)
 				.remove();
 		}
 	}
 
 	render() {
 		let date;
-		//noinspection JSUnusedAssignment
 		this.props.dateTime ? date = new Date(this.props.dateTime): date = false;
 		return (
 			<Card>
 				<CardHeader title={ this.props.title }
-							subtitle={ `${ date ? moment(date).format("dddd, MMMM Do, h:mm a") : '' }` }
+							subtitle={ date ? `Scheduled for ${ moment(date).format('dddd, MMMM Do, h:mm a')}` : null }
 							actAsExpander={ true }
 							showExpandableButton={ true }
 							/>

@@ -26,7 +26,7 @@ export class Home extends PureComponent {
 			posts.forEach( post => {
 				let key = post.key();
 				let currPost = post.val();
-				currPost.key = key;
+				currPost.id = key;
 
 				postArray.push(currPost);
 			});
@@ -37,7 +37,7 @@ export class Home extends PureComponent {
 	render() {
 		let posts = this.state.posts
 						.filter( post => this.props.category.get( post.category ) )
-						.map( post => <div key={ post.key } className="post-wrapper"><Post key={ post.key } { ...post } user={ this.props.user } firebaseUrl={ this.firebaseUrl } /></div> );
+						.map( post => <div key={ post.id } className="post-wrapper"><Post key={ post.id } { ...post } user={ this.props.user } firebaseUrl={ this.firebaseUrl } /></div> );
 
 		return (
 			<div>

@@ -1,10 +1,10 @@
 const DELETE_POST = `post/DELETE_POST`;
 
 const initialState = {
-	deleting: false
+
 };
 
-export default function reducer() {
+export default function reducer( state = initialState, action ) {
 
 }
 
