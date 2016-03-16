@@ -1,12 +1,16 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import PureComponent from 'react-pure-render/component';
 import Firebase from 'firebase';
 import { CircularProgress, RaisedButton } from 'material-ui';
+
 import { setUser } from '../ducks/user';
 import store from '../store';
 
+import NavBar from './navbar';
 
-export default class Unauthed extends PureComponent {
+
+export class Unauthed extends PureComponent {
 	constructor( props ) {
 		super( props );
 
@@ -16,7 +20,7 @@ export default class Unauthed extends PureComponent {
 			, loading: false
 		};
 
-		this.firebaseRef = new Firebase( this.props.firebaseUrl );
+		this.firebaseRef = new Firebase( `https://devmtn-bulletin.firebaseio.com/` );
 
 	}
 
@@ -79,6 +83,7 @@ export default class Unauthed extends PureComponent {
 				, id: authData.uid
 				, cohortId: 46
 			}));
+			location.hash = `/home`
 		});
 	}
 
@@ -102,57 +107,64 @@ export default class Unauthed extends PureComponent {
 
 	render() {
 		return (
-			<div className="unauthed-wrapper">
-				<h3>Login or register to view information specific to your cohort!</h3>
+			<div>
+				<NavBar user={ this.props.user } />
+				<div className="unauthed-wrapper">
+					<h3>Login or register to view information specific to your cohort!</h3>
 
-				{ this.state.errors ? <p className="errors">{ this.state.errors }</p> : null }
-				{ this.state.loading
-					?
-						<CircularProgress />
-					:
-						<form className="auth-form">
+					{ this.state.errors ? <p className="errors">{ this.state.errors }</p> : null }
+					{ this.state.loading
+						?
+							<CircularProgress />
+						:
+							<form className="auth-form">
 
-							<input type="email"
-								   required
-								   placeholder="user@example.net"
-								   className="auth-input"
-								   value={ this.state.email }
-								   onChange={ this.handleChange.bind( this, `email` ) }/>
+								<input type="email"
+									   required
+									   placeholder="user@example.net"
+									   className="auth-input"
+									   value={ this.state.email }
+									   onChange={ this.handleChange.bind( this, `email` ) }/>
 
-							<input type="password"
-								   required
-								   placeholder="Password"
-								   className="auth-input"
-								   value={ this.state.password }
-								   onChange={ this.handleChange.bind( this, `password`)}/>
+								<input type="password"
+									   required
+									   placeholder="Password"
+									   className="auth-input"
+									   value={ this.state.password }
+									   onChange={ this.handleChange.bind( this, `password`)}/>
 
-							{ this.state.newUser ?
-								<RaisedButton label="Login"
+								{ this.state.newUser ?
+									<RaisedButton label="Login"
+												  secondary={ true }
+												  onClick={ this.validateForm.bind( this, 'login' ) }
+												  className="auth-submit"
+												  />
+									 :
+									<RaisedButton label="Register"
+												  secondary={ true }
+												  onClick={ this.validateForm.bind( this, 'register' ) }
+												  className="auth-submit"
+												  />
+								}
+
+								<RaisedButton label="Login with GitHub"
 											  secondary={ true }
-											  onClick={ this.validateForm.bind( this, 'login' ) }
+											  onClick={ this.loginWithGithub.bind( this ) }
 											  className="auth-submit"
 											  />
-								 :
-								<RaisedButton label="Register"
-											  secondary={ true }
-											  onClick={ this.validateForm.bind( this, 'register' ) }
-											  className="auth-submit"
-											  />
-							}
 
-							<RaisedButton label="Login with GitHub"
-										  secondary={ true }
-										  onClick={ this.loginWithGithub.bind( this ) }
-										  className="auth-submit"
-										  />
-
-							<p className="login-register"
-							   onClick={ this.loginRegisterToggle.bind( this ) }>
-								{ this.state.newUser ? `Need an account?` : `Have an account?` }
-							</p>
-						</form>
-				}
+								<p className="login-register"
+								   onClick={ this.loginRegisterToggle.bind( this ) }>
+									{ this.state.newUser ? `Need an account?` : `Have an account?` }
+								</p>
+							</form>
+					}
+				</div>
 			</div>
 		);
 	}
 }
+
+export default connect( state => ({
+	user: state.user
+}))( Unauthed );
