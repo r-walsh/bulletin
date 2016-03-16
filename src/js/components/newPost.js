@@ -39,7 +39,7 @@ export default class NewPost extends PureComponent {
 	}
 
 	submit() {
-		let dateTime = null;
+		let dateTime = null, onlyDate = false;
 		if ( this.state.date && this.state.time ) {
 			dateTime = new Date(
 				  this.state.date.getFullYear()
@@ -50,6 +50,7 @@ export default class NewPost extends PureComponent {
 			).getTime();
 		} else if ( this.state.date ) {
 			dateTime = this.state.date.getTime();
+			onlyDate = true;
 		} else if ( this.state.time ) {
 			return this.setState({ errors: 'Must set a date to set a time'});
 		}
@@ -64,6 +65,7 @@ export default class NewPost extends PureComponent {
 				, title: this.state.title
 				, content: this.state.content
 				, dateTime
+				, onlyDate
 				, author: this.props.user.get(`id`)
 			});
 		store.dispatch(activateCategory(this.state.category));
