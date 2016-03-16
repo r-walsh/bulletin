@@ -10,13 +10,14 @@ import Unauthed from './unauthed';
 import Categories from './categories';
 import NewPost from './newPost';
 
-const firebaseUrl = `https://devmtn-bulletin.firebaseio.com/`;
 
 export class Home extends PureComponent {
 	constructor( props ) {
 		super( props );
 
-		this.postsRef = new Firebase(firebaseUrl + `posts`);
+		this.firebaseUrl = `https://devmtn-bulletin.firebaseio.com/`;
+
+		this.postsRef = new Firebase(this.firebaseUrl + `posts`);
 
 		this.state = { posts: [] } ;
 
@@ -36,7 +37,7 @@ export class Home extends PureComponent {
 	render() {
 		let posts = this.state.posts
 						.filter( post => this.props.category.get( post.category ) )
-						.map( post => <div key={ post.key } className="post-wrapper"><Post key={ post.key } { ...post } user={ this.props.user } firebaseUrl={ firebaseUrl } /></div> );
+						.map( post => <div key={ post.key } className="post-wrapper"><Post key={ post.key } { ...post } user={ this.props.user } firebaseUrl={ this.firebaseUrl } /></div> );
 
 		return (
 			<div>
@@ -47,13 +48,13 @@ export class Home extends PureComponent {
 							<div>
 								<Categories category={ this.props.category } />
 								<div className="new-post-wrapper">
-									<NewPost firebaseUrl={ firebaseUrl } user={ this.props.user } />
+									<NewPost firebaseUrl={ this.firebaseUrl } user={ this.props.user } />
 								</div>
 								{ posts }
 							</div>
 						:
 							<div className="wrapper-main">
-								<Unauthed firebaseUrl={ firebaseUrl } />
+								<Unauthed firebaseUrl={ this.firebaseUrl } />
 							</div>
 					}
 

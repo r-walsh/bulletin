@@ -33,7 +33,7 @@ export default class Unauthed extends PureComponent {
 				return console.error(`Error logging in. ${ err }`);
 			}
 
-			firebaseRef.child(`users`).push({
+			this.firebaseRef.child(`users`).push({
 				  email: this.state.email
 				, cohortId: 46
 			});

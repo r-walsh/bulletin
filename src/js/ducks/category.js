@@ -1,7 +1,7 @@
 import { Map } from 'immutable';
 
-const CATEGORY_SELECT = `category/CATEGORY_SELECT`;
-const REMOVE_CATEGORY = `category/REMOVE_CATEGORY`;
+const TOGGLE_CATEGORY = `category/TOGGLE_CATEGORY`;
+const ACTIVATE_CATEGORY = `category/ACTIVATE_CATEGORY`;
 
 const initialState = Map({
 	  general: true
@@ -11,12 +11,18 @@ const initialState = Map({
 
 export default function reducer( state = initialState, action ) {
 	switch ( action.type ) {
-		case CATEGORY_SELECT:
+		case TOGGLE_CATEGORY:
 			return state.set(action.category, !state.get(action.category));
+		case ACTIVATE_CATEGORY:
+			return state.set(action.category, true);
 	}
 	return state;
 }
 
-export function categorySelect( category ) {
-	return { type: CATEGORY_SELECT, category };
+export function toggleCategory( category ) {
+	return { type: TOGGLE_CATEGORY, category };
+}
+
+export function activateCategory( category ) {
+	return { type: ACTIVATE_CATEGORY, category };
 }

@@ -3,25 +3,27 @@ import PureComponent from 'react-pure-render/component';
 import Modal from 'react-modal';
 import Firebase from 'firebase';
 import { RaisedButton, FlatButton, RadioButton, RadioButtonGroup, TextField, DatePicker, TimePicker, Dialog } from 'material-ui';
-
-const initialState = {
-	  writePost: false
-	, confirmClose: false
-	, category: ''
-	, title: ''
-	, content: ''
-	, date: null
-	, time: null
-	, errors: null
-};
+import store from '../store';
+import { activateCategory } from '../ducks/category';
 
 export default class NewPost extends PureComponent {
 	constructor( props ) {
 		super( props );
 
-		this.state = initialState;
+		this.initialState = {
+			  writePost: false
+			, confirmClose: false
+			, category: ''
+			, title: ''
+			, content: ''
+			, date: null
+			, time: null
+			, errors: null
+		};
 
-		this.firebaseRef = new Firebase(this.props.firebaseUrl);
+		this.state = this.initialState;
+
+		this.postsRef = new Firebase(this.props.firebaseUrl + `posts`);
 	}
 
 	newPost() {
@@ -29,7 +31,7 @@ export default class NewPost extends PureComponent {
 	}
 
 	closeModal() {
-		this.setState(initialState);
+		this.setState(this.initialState);
 	}
 
 	handleChange( field, event ) {
@@ -56,9 +58,7 @@ export default class NewPost extends PureComponent {
 			return this.setState({ errors: 'Title, content, and category are required.' });
 		}
 
-		console.log(dateTime);
-		this.firebaseRef
-			.child(`posts`)
+		this.postsRef
 			.push({
 				  category: this.state.category
 				, title: this.state.title
@@ -66,8 +66,8 @@ export default class NewPost extends PureComponent {
 				, dateTime
 				, author: this.props.user.get(`id`)
 			});
-
-		this.setState(initialState);
+		store.dispatch(activateCategory(this.state.category));
+		this.setState(this.initialState);
 	}
 
 	render() {
