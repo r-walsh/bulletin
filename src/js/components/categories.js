@@ -1,6 +1,5 @@
 import React from 'react';
 import PureComponent from 'react-pure-render/component';
-import classNames from 'classnames'
 import { Toggle } from 'material-ui';
 import store from '../store';
 import { toggleCategory } from '../ducks/category';
