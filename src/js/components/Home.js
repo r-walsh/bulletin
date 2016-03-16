@@ -2,7 +2,6 @@ import React from 'react';
 import PureComponent from 'react-pure-render/component';
 import { connect } from 'react-redux';
 import Firebase from 'firebase';
-import ReactFireMixin from 'reactfire';
 import _ from 'underscore';
 import store from '../store';
 import Navbar from './navbar';
@@ -19,25 +18,25 @@ export class Home extends PureComponent {
 
 		this.postsRef = new Firebase(firebaseUrl + `posts`);
 
-		this.state = { posts: {} };
+		this.state = { posts: [] } ;
 
-		this.postsRef.on(`child_added`, post => {
-			if ( this.state.posts[post.key()]) {
-				return;
-			}
+		this.postsRef.on(`value`, posts => {
+			let postArray = [];
+			posts.forEach( post => {
+				let key = post.key();
+				let currPost = post.val();
+				currPost.key = key;
 
-			let postVal = post.val();
-			postVal.key = post.key();
-			this.setState(_.extend( this.state.posts, { [postVal.key]: postVal } ));
-
+				postArray.push(currPost);
+			});
+			this.setState({ posts: postArray });
 		});
-
 	}
 
 	render() {
-		let posts = _.values( this.state.posts )
+		let posts = this.state.posts
 						.filter( post => this.props.category.get( post.category ) )
-						.map( post => <div key={ post.key } className="post-wrapper"><Post key={ post.key } { ...post } user={ this.props.user } /></div> );
+						.map( post => <div key={ post.key } className="post-wrapper"><Post key={ post.key } { ...post } user={ this.props.user } firebaseUrl={ firebaseUrl } /></div> );
 
 		return (
 			<div>
