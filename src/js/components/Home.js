@@ -2,20 +2,20 @@ import React from 'react';
 import PureComponent from 'react-pure-render/component';
 import { connect } from 'react-redux';
 import Firebase from 'firebase';
-import _ from 'underscore';
-import store from '../store';
+
 import Navbar from './navbar';
 import Post from './post';
-import Unauthed from './unauthed';
 import Categories from './categories';
 import NewPost from './newPost';
+
+import { firebaseRef } from '../constants';
 
 
 export class Home extends PureComponent {
 	constructor( props ) {
 		super( props );
 
-		this.firebaseUrl = `https://devmtn-bulletin.firebaseio.com/`;
+		this.firebaseUrl = firebaseRef;
 
 		this.postsRef = new Firebase(this.firebaseUrl + `posts`);
 

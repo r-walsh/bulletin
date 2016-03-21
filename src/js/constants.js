@@ -1,0 +1,1 @@
+export const firebaseRef = `https://devmtn-bulletin.firebaseio.com/`;

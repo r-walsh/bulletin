@@ -9,6 +9,8 @@ import store from '../store';
 
 import NavBar from './navbar';
 
+import { firebaseRef } from '../constants';
+
 
 export class Unauthed extends PureComponent {
 	constructor( props ) {
@@ -20,7 +22,7 @@ export class Unauthed extends PureComponent {
 			, loading: false
 		};
 
-		this.firebaseRef = new Firebase( `https://devmtn-bulletin.firebaseio.com/` );
+		this.firebaseRef = new Firebase(firebaseRef);
 
 	}
 

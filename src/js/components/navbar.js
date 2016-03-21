@@ -1,8 +1,11 @@
 import React from 'react';
 import Firebase from 'firebase';
 import PureComponent from 'react-pure-render/component';
+
 import store from '../store';
 import { logout as logoutAction } from '../ducks/user';
+
+import { firebaseRef } from '../constants';
 
 
 export default class Navbar extends PureComponent {
@@ -13,7 +16,7 @@ export default class Navbar extends PureComponent {
 	}
 
 	logout() {
-		let firebaseRef = new Firebase(`https://devmtn-bulletin.firebaseio.com`);
+		let firebaseRef = new Firebase(firebaseRef);
 		firebaseRef.unauth().then( () => {
 			store.dispatch(logoutAction());
 		});
